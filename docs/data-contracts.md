@@ -238,7 +238,9 @@ uv run generate-samples --count 50 --seed 7 --out /tmp/samples
 
 ### 1.9 Ingestion reader
 
-`pipeline.consumers.readers` is the supported way to load files into the pipeline:
+`pipeline.consumers.readers` provides two ingestion modes.
+
+Strict, fail-fast:
 
 | Function | Behavior |
 | --- | --- |
@@ -246,10 +248,29 @@ uv run generate-samples --count 50 --seed 7 --out /tmp/samples
 | `read_batch(path)` | Loads one `<batch_id>.jsonl`/`.json` file into `EventBatch(batch_id, source, events)` |
 | `read_event_batches(directory)` | Yields sorted `batch_*` files and rejects duplicate ids across batches |
 
+Tolerant, quarantine-friendly:
+
+| Function | Behavior |
+| --- | --- |
+| `ingest_events(path)` | Returns `IngestionResult` with valid events, invalid records, and statistics |
+| `ingest_batch(path, batch_id=None)` | Same, with a validated batch id |
+| `ingest_batches(directory)` | Yields one result per batch, sharing duplicate detection |
+| `aggregate_stats(results)` | Sums `IngestionStats` across results |
+
+Data shapes:
+
+- `InvalidRecord`: `source`, `position`, `reason` (`malformed_json`,
+  `not_an_object`, `invalid_event`, `duplicate_event_id`), `detail`, `raw`.
+- `IngestionStats`: `total`, `valid`, `invalid`, `malformed`, `duplicates`.
+- `IngestionResult`: `source`, `batch_id`, `events`, `invalid`, `stats`.
+
 Rules:
 
-- Malformed JSON raises `EventReadError`; contract violations raise
-  `RecordValidationError`; both include `path:position`.
+- Strict mode raises `EventReadError` for malformed JSON and
+  `RecordValidationError` for contract violations; messages include
+  `path:position`.
+- Tolerant mode never aborts on a bad record: invalid rows are preserved for
+  quarantine and excluded from the valid stream.
 - Duplicate `event_id` values are rejected within a file (DQ-002) and across
   batches in the same directory (event ids are globally unique).
 - Batch ids are derived from the filename and must match the section 1.1 format.
