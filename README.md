@@ -82,24 +82,24 @@ pipeline-healer/
 
 ## Getting started
 
-Requirements: Python 3.12+ and uv. `uv` provisions the virtualenv and
-interpreter; no manual activation is needed.
+Requirements: Python 3.12+, [uv](https://docs.astral.sh/uv/), and `make`.
+Everything runs through the `Makefile`; `make help` lists every target.
 
-```bash
-uv sync                    # create .venv and install the project
-uv run pipeline-healer     # run the CLI entry point
-uv run pytest              # tests
-uv run ruff check .        # lint
-uv run ruff format .       # format
-```
+| Task | Command |
+| --- | --- |
+| Install and sync the environment | `make install` |
+| Run the package entry point | `make run` |
+| Run the test suite | `make test` |
+| Lint and format | `make lint` / `make format` |
+| Lint, format check, and tests together | `make check` |
+| Print a few generated events | `make demo` |
+| Generate events (`COUNT=`, `SEED=`) | `make ride` / `make order` |
+| Regenerate the committed fixtures | `make samples` |
+| Install the commit hooks (once) | `make hooks` |
+| Run all hooks against every file | `make pre-commit` |
+| Remove caches and build artifacts | `make clean` |
 
-Set up the commit hooks once per clone:
-
-```bash
-uv run pre-commit install
-```
-
-CI runs Ruff, a formatting check, and pytest on every push to `main`.
+CI runs the equivalent of `make check` on every push to `main`.
 
 ## Safety principles
 
