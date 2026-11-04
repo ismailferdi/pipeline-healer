@@ -71,11 +71,13 @@ types. Redpanda, Spark, and Airflow come after the repair loop is reliable.
 pipeline-healer/
 ├── src/pipeline_healer/    # pipeline, chaos, agent, sandbox, evals
 ├── dags/                   # Airflow DAGs
-├── data/incidents/         # recorded incident batches and golden outputs
+├── data/
+│   ├── incidents/          # recorded incident batches and golden outputs
+│   └── samples/            # committed ride/order fixtures with manifest
 ├── docs/                   # design set
 ├── tests/                  # unit/, integration/, safety/
 ├── docker-compose.yml
-└── Makefile                # make break, make demo, make eval
+└── Makefile                # make help, check, samples, demo
 ```
 
 ## Getting started

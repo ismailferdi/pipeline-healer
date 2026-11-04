@@ -1,0 +1,19 @@
+{
+  "generator": "pipeline_healer.pipeline.producers.samples",
+  "schema_version": "1.4.0",
+  "seed": 2026,
+  "start_at": "2026-01-01T00:00:00Z",
+  "count": 200,
+  "datasets": {
+    "ride_events": {
+      "file": "ride_events.jsonl",
+      "count": 200,
+      "sha256": "3ef211842dfae00834df1424a9e4ac02331cacedc9a3d617c8373080fba4462a"
+    },
+    "order_events": {
+      "file": "order_events.jsonl",
+      "count": 200,
+      "sha256": "734cc4bd17b24c2d36f02b730662398bad61928f31def6c91e1bd6b4d769a456"
+    }
+  }
+}

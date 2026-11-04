@@ -104,8 +104,9 @@ Notes:
 
 1. Reset the environment: fresh database volume, reseeded fixtures, recorded
    batches only.
-2. For each incident in the split, run the system under test through
-   `make eval-incident INCIDENT=<id> CONFIG=<system>`.
+2. For each incident in the split, run the system under test through the
+   evaluation harness, which will expose
+   `make eval-incident INCIDENT=<id> CONFIG=<system>` once implemented.
 3. Capture: diagnosis, patch, verification result, PR payload (dry-run), trace,
    token counts, wall clock.
 4. Score against ground truth automatically; no manual interpretation of
@@ -191,7 +192,7 @@ that accounting.
 - Model id, temperature, and prompt hashes recorded.
 - Sandbox image digest recorded.
 - Raw traces and artifacts retained under `evals/reports/`.
-- One command reproduces the headline table: `make eval`.
+- One command will reproduce the headline table: `make eval` (planned).
 
 ## 11. Related documents
 

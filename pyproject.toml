@@ -11,6 +11,9 @@ dependencies = []
 
 [project.scripts]
 pipeline-healer = "pipeline_healer:main"
+ride-event-producer = "pipeline_healer.pipeline.producers.ride_events:main"
+order-event-producer = "pipeline_healer.pipeline.producers.order_events:main"
+generate-samples = "pipeline_healer.pipeline.producers.samples:main"
 
 [build-system]
 requires = ["uv_build>=0.12.7,<0.13.0"]

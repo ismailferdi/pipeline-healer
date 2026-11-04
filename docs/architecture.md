@@ -285,11 +285,13 @@ pipeline-healer/
 │   ├── sandbox/           # docker/, runner.py, replay.py
 │   └── evals/             # benchmark, baselines, metrics, reports
 ├── dags/                  # Airflow DAG definitions
-├── data/incidents/        # recorded incident batches and golden outputs
+├── data/
+│   ├── incidents/         # recorded incident batches and golden outputs
+│   └── samples/           # committed ride/order fixtures with manifest
 ├── docs/                  # this design set
 ├── tests/                 # unit/, integration/, safety/
 ├── docker-compose.yml
-├── Makefile               # make break, make demo, make eval
+├── Makefile               # make help, check, samples, demo
 └── README.md
 ```
 
