@@ -236,6 +236,26 @@ uv run generate-samples --count 50 --seed 7 --out /tmp/samples
 - Use these datasets for tests, demos, and chaos calibration instead of
   hand-written events.
 
+### 1.9 Ingestion reader
+
+`pipeline.consumers.readers` is the supported way to load files into the pipeline:
+
+| Function | Behavior |
+| --- | --- |
+| `read_events(path)` | Streams a `.jsonl` file (one event per line, blank lines skipped) or a `.json` array, validating every record |
+| `read_batch(path)` | Loads one `<batch_id>.jsonl`/`.json` file into `EventBatch(batch_id, source, events)` |
+| `read_event_batches(directory)` | Yields sorted `batch_*` files and rejects duplicate ids across batches |
+
+Rules:
+
+- Malformed JSON raises `EventReadError`; contract violations raise
+  `RecordValidationError`; both include `path:position`.
+- Duplicate `event_id` values are rejected within a file (DQ-002) and across
+  batches in the same directory (event ids are globally unique).
+- Batch ids are derived from the filename and must match the section 1.1 format.
+- Unsupported extensions and missing files fail fast rather than yielding partial
+  data.
+
 ## 2. Schema versioning strategy
 
 ### 2.1 Version placement
