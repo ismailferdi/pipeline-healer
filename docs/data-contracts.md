@@ -398,6 +398,34 @@ Grain: one row per `(metric_date, city)`. Late events within the watermark updat
 the row; events older than the watermark are quarantined with
 `reason_code=late_event` (see constraint DQ-007).
 
+### 3.5 Transformation pipeline
+
+`pipeline.transforms` is split into small, independently testable modules:
+
+| Module | Responsibility |
+| --- | --- |
+| `normalization.py` | snake_case field names with collision detection, NFC/whitespace text normalization, event-type and currency casing |
+| `nulls.py` | null tokens (`""`, `null`, `N/A`, `-`, `غير متوفر`, …) → `None`, recursively |
+| `conversion.py` | exact `Decimal` money (two places), integer coercion; rejects booleans, fractions, and non-finite numbers |
+| `timestamps.py` | RFC 3339/ISO 8601 parsing, explicit assumption timezone for naive input, UTC normalization |
+| `validation.py` | contract validation plus proof that timestamps and numeric fields are convertible |
+| `cleaning.py` | composes the above: deep-copied event, normalized keys/strings/nulls, Decimal amounts, aware UTC datetimes |
+| `dedupe.py` | first-occurrence-wins duplicate detection over `event_id` (or a custom key) |
+| `output.py` | canonical `ride_events_clean` / `order_events_clean` rows |
+
+Rules:
+
+- `clean_event` never mutates its input; timestamps become aware UTC datetimes and
+  money becomes `Decimal`, never `float`.
+- Validation failures raise `RecordValidationError`; conversion and timestamp
+  failures raise `TransformError` subclasses with the field name.
+- Duplicate detection preserves input order and returns duplicates separately.
+- Output rows require a valid `batch_id` (section 1.1) and a non-empty
+  `source_topic`; events without a canonical table (payments, for now) raise
+  `TransformError`.
+- Rows for cancelled events carry `None` in columns the event cannot provide
+  (fare, item counts, driver/merchant fields).
+
 ## 4. Data quality constraints
 
 Severity `critical` fails the batch and raises an incident; `warning` is recorded
