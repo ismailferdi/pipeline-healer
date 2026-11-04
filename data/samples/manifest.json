@@ -3,17 +3,17 @@
   "schema_version": "1.4.0",
   "seed": 2026,
   "start_at": "2026-01-01T00:00:00Z",
-  "count": 200,
+  "count": 5000,
   "datasets": {
     "ride_events": {
       "file": "ride_events.jsonl",
-      "count": 200,
-      "sha256": "3ef211842dfae00834df1424a9e4ac02331cacedc9a3d617c8373080fba4462a"
+      "count": 5000,
+      "sha256": "c3c187bc21ef532ec621192f5b8d89f31eb2f223a65f2ab32a005e937701caf4"
     },
     "order_events": {
       "file": "order_events.jsonl",
-      "count": 200,
-      "sha256": "734cc4bd17b24c2d36f02b730662398bad61928f31def6c91e1bd6b4d769a456"
+      "count": 5000,
+      "sha256": "44a33b2741910a4a6bf7a0b74a39b2261ef17321b08c16f3006298678c090a9a"
     }
   }
 }

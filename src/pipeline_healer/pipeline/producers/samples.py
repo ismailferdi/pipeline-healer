@@ -21,7 +21,7 @@ from pipeline_healer.pipeline.producers.ride_events import SCHEMA_VERSION, gener
 from pipeline_healer.pipeline.producers.timestamps import DETERMINISTIC_START, rfc3339
 
 SAMPLE_SEED = 2026
-SAMPLE_COUNT = 200
+SAMPLE_COUNT = 5000
 SAMPLE_START = DETERMINISTIC_START
 
 

@@ -218,11 +218,11 @@ Committed fixtures live in `data/samples/`:
 
 | File                 | Contents                                              |
 | -------------------- | ----------------------------------------------------- |
-| `ride_events.jsonl`  | 200 ride events                                       |
-| `order_events.jsonl` | 200 order events                                      |
+| `ride_events.jsonl`  | 5000 ride events                                      |
+| `order_events.jsonl` | 5000 order events                                     |
 | `manifest.json`      | generator, seed, start time, counts, SHA-256 per file |
 
-Defaults: seed `2026`, start `2026-01-01T00:00:00Z`, 200 events per dataset.
+Defaults: seed `2026`, start `2026-01-01T00:00:00Z`, 5000 events per dataset.
 Regeneration is byte-identical:
 
 ```bash
